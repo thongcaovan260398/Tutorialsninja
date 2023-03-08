@@ -66,8 +66,9 @@ public class RegisterPage {
         privacyPolicyField.click();
     }
 
-    public void clickContinueButton(){
+    public AccountSuccessPage clickContinueButton(){
         continueButton.click();
+        return new AccountSuccessPage(driver);
     }
     public void selectSubField(){
         subField.click();
@@ -80,4 +81,33 @@ public class RegisterPage {
         return privacyPolicyWarning.getText();
     }
 
+    public AccountSuccessPage registerWithMandatoryFields(String firstNameText, String lastNameText, String emailText,String telephoneText,String passwordText){
+        firstNameField.sendKeys(firstNameText);
+        lastNameField.sendKeys(lastNameText);
+        emailField.sendKeys(emailText);
+        telephoneField.sendKeys(telephoneText);
+        passwordField.sendKeys(passwordText);
+        confirmPasswordField.sendKeys(passwordText);
+        privacyPolicyField.click();
+        continueButton.click();
+        return new AccountSuccessPage(driver);
+    }
+    public AccountSuccessPage registerWithAllFields(String firstNameText, String lastNameText, String emailText,String telephoneText,String passwordText){
+        firstNameField.sendKeys(firstNameText);
+        lastNameField.sendKeys(lastNameText);
+        emailField.sendKeys(emailText);
+        telephoneField.sendKeys(telephoneText);
+        passwordField.sendKeys(passwordText);
+        confirmPasswordField.sendKeys(passwordText);
+        subField.click();
+        privacyPolicyField.click();
+        continueButton.click();
+        return new AccountSuccessPage(driver);
+    }
+    public boolean displayStatusOfWarningMessages(String expectedPrivacyPolicyWarning){
+        String actualPolicyWarning = privacyPolicyWarning.getText();
+        boolean privacyPolicyWarningStatus = actualPolicyWarning.contains(expectedPrivacyPolicyWarning);
+
+        return privacyPolicyWarningStatus;
+    }
 }

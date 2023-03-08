@@ -30,20 +30,36 @@ public class HomePage {
     public void clickMyAccount(){
         myAccountDropMenu.click();
     }
-
-    public void selectLoginOption(){
-        loginOption.click();
-    }
-    public void selectRegisterOption(){
-        registerOption.click();
-    }
-    public void clickSearchButton(){
-        searchButton.click();
-    }
-
-    //search
     public void enterProductIntoSearch(String product){
         searchField.sendKeys(product);
     }
+    public LoginPage selectLoginOption(){
+        loginOption.click();
+        return new LoginPage(driver);
+    }
+    public RegisterPage selectRegisterOption(){
+        registerOption.click();
+        return new RegisterPage(driver);
+    }
+    public RegisterPage navigateToRegisterPage(){
+        myAccountDropMenu.click();
+        registerOption.click();
+        return new RegisterPage(driver);
+    }
+    public LoginPage navigateToLoginPage(){
+        myAccountDropMenu.click();
+        loginOption.click();
+        return new LoginPage(driver);
+    }
+    public SearchPage clickSearchButton(){
+        searchButton.click();
+        return new SearchPage(driver);
+    }
+    public SearchPage searchForAProduct(String productText){
+        searchField.sendKeys(productText);
+        searchButton.click();
+        return new SearchPage(driver);
+    }
+
 
 }

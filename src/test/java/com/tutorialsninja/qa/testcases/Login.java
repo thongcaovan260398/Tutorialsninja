@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 
 
 public class Login extends Base {
+    LoginPage loginPage;
     public Login(){
         super();
     }
@@ -33,18 +34,12 @@ public class Login extends Base {
     public void Setup(){
         driver =initializeBrowserAndOpenApplication(prop.getProperty("browser"));
         HomePage homePage = new HomePage(driver);
-        homePage.clickMyAccount();
-        homePage.selectLoginOption();
+        loginPage = homePage.navigateToLoginPage();
     }
 
     @Test(priority = 1,dataProvider = "validCredentialsSupplier")
     public void verifyLoginWithValidCredentials(String email, String password){
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.enterEmailAddress(email);
-        loginPage.enterPasswordField(password);
-        loginPage.clickLogin();
-
-        AccountPage accountPage=new AccountPage(driver);
+        AccountPage accountPage = loginPage.login(email,password);
         Assert.assertTrue(accountPage.getDisplayStatusOfEditYourAcctountInformationOption(),"Edit your account information is not displayed");
     }
 
@@ -56,50 +51,26 @@ public class Login extends Base {
 
     @Test(priority = 2)
     public void verifyLoginWithInvalidCredentials(){
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.enterEmailAddress(Utilities.generateEmailWithTimeStamp());
-        loginPage.enterPasswordField(dataProp.getProperty("invalidPassword"));
-        loginPage.clickLogin();
-
-        String actualWarningMessage = loginPage.retrieveEmailPasswordNotMatchingWarningMessageText();
-        String expectedWarningMessage =  dataProp.getProperty("emailPasswordNoMatching");
-        Assert.assertTrue(actualWarningMessage.contains(expectedWarningMessage),"Expected Warning message is not displayed ");
+        loginPage.login(Utilities.generateEmailWithTimeStamp(),dataProp.getProperty("invalidPassword"));
+        Assert.assertTrue( loginPage.retrieveEmailPasswordNotMatchingWarningMessageText().contains(dataProp.getProperty("emailPasswordNoMatching")),"Expected Warning message is not displayed ");
     }
 
     @Test(priority = 3)
     public void verifyLoginWithValidEmailAndInvalidPassword(){
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.enterEmailAddress(prop.getProperty("validEmail"));
-        loginPage.enterPasswordField(dataProp.getProperty("invalidPassword"));
-        loginPage.clickLogin();
-
-
-        String actualWarningMessage = loginPage.retrieveEmailPasswordNotMatchingWarningMessageText();
-        String expectedWarningMessage =  dataProp.getProperty("emailPasswordNoMatching");
-        Assert.assertTrue(actualWarningMessage.contains(expectedWarningMessage),"Expected Warning message is not displayed ");
+        loginPage.login(prop.getProperty("validEmail"),dataProp.getProperty("invalidPassword"));
+        Assert.assertTrue(loginPage.retrieveEmailPasswordNotMatchingWarningMessageText().contains(dataProp.getProperty("emailPasswordNoMatching")),"Expected Warning message is not displayed ");
     }
 
     @Test(priority = 4)
     public void verifyLoginWithInvalidEmailAndValidPassword(){
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.enterEmailAddress(Utilities.generateEmailWithTimeStamp());
-        loginPage.enterPasswordField(prop.getProperty("validPassword"));
-        loginPage.clickLogin();
-
-
-        String actualWarningMessage = loginPage.retrieveEmailPasswordNotMatchingWarningMessageText();
-        String expectedWarningMessage =  dataProp.getProperty("emailPasswordNoMatching");
-        Assert.assertTrue(actualWarningMessage.contains(expectedWarningMessage),"Expected Warning message is not displayed ");
+       loginPage.login(Utilities.generateEmailWithTimeStamp(),prop.getProperty("validPassword"));
+        Assert.assertTrue(loginPage.retrieveEmailPasswordNotMatchingWarningMessageText().contains(dataProp.getProperty("emailPasswordNoMatching")),"Expected Warning message is not displayed ");
     }
 
     @Test(priority = 5)
     public void verifyLoginWithoutProvidingCredentials(){
-        LoginPage loginPage = new LoginPage(driver);
         loginPage.clickLogin();
-
-        String actualWarningMessage = loginPage.retrieveEmailPasswordNotMatchingWarningMessageText();
-        String expectedWarningMessage =  dataProp.getProperty("emailPasswordNoMatching");
-        Assert.assertTrue(actualWarningMessage.contains(expectedWarningMessage),"Expected Warning message is not displayed ");
+        Assert.assertTrue(loginPage.retrieveEmailPasswordNotMatchingWarningMessageText().contains(dataProp.getProperty("emailPasswordNoMatching")),"Expected Warning message is not displayed ");
     }
 
 

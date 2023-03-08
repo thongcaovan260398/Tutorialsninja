@@ -32,8 +32,15 @@ public class LoginPage {
         passwordField.sendKeys(passwordText);
     }
 
-    public void clickLogin(){
+    public AccountPage clickLogin(){
         loginButton.click();
+        return new AccountPage(driver);
+    }
+    public AccountPage login(String emailText, String passwordText){
+        emailAddressField.sendKeys(emailText);
+        passwordField.sendKeys(passwordText);
+        loginButton.click();
+        return new AccountPage(driver);
     }
 
     public String retrieveEmailPasswordNotMatchingWarningMessageText(){

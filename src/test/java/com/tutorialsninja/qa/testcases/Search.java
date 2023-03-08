@@ -16,6 +16,8 @@ import javax.naming.directory.SearchResult;
 
 
 public class Search extends Base {
+    SearchPage searchPage;
+    HomePage homePage;
     public Search(){
         super();
     }
@@ -29,39 +31,24 @@ public class Search extends Base {
     @BeforeMethod
     public void Setup(){
         driver =initializeBrowserAndOpenApplication(prop.getProperty("browser"));
+        homePage = new HomePage(driver);
     }
 
     @Test(priority = 1)
     public void verifySearchWithValidProduct(){
-        HomePage homePage = new HomePage(driver);
-        SearchPage searchPage = new SearchPage(driver);
-        homePage.enterProductIntoSearch(dataProp.getProperty("validProduct"));
-        homePage.clickSearchButton();
-
-
+        searchPage = homePage.searchForAProduct(dataProp.getProperty("validProduct"));
         Assert.assertTrue(searchPage.displayStatusOfHPValidProduct(),"Valid product is not displayed");
     }
 
     @Test(priority = 2)
     public void verifySearchWithInvalidProduct(){
-        HomePage homePage = new HomePage(driver);
-        SearchPage searchPage = new SearchPage(driver);
-
-        homePage.enterProductIntoSearch(dataProp.getProperty("invalidProduct"));
-        homePage.clickSearchButton();
-
-
-        String actualSearchMessage =searchPage.retrieveNoProductMessageText();
-        Assert.assertEquals(actualSearchMessage,dataProp.getProperty("noProductTextInSearchResults"),"No product message in search results is not displayed");
+        searchPage = homePage.searchForAProduct(dataProp.getProperty("invalidProduct"));
+        Assert.assertEquals(searchPage.retrieveNoProductMessageText(),dataProp.getProperty("noProductTextInSearchResults"),"No product message in search results is not displayed");
     }
 
     @Test(priority = 3)
     public void verifySearchWithoutAnyProduct(){
-        HomePage homePage = new HomePage(driver);
-        SearchPage searchPage = new SearchPage(driver);
-        homePage.clickSearchButton();
-
-        String actualSearchMessage = searchPage.retrieveNoProductMessageText();
-        Assert.assertEquals(actualSearchMessage,dataProp.getProperty("noProductTextInSearchResults"),"No product message in search results is not displayed");
+        searchPage = homePage.clickSearchButton();
+        Assert.assertEquals(searchPage.retrieveNoProductMessageText(),dataProp.getProperty("noProductTextInSearchResults"),"No product message in search results is not displayed");
     }
 }
