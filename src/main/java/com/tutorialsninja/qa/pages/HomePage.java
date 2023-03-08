@@ -19,7 +19,7 @@ public class HomePage {
     @FindBy(name = "search")
     private WebElement searchField;
 
-    @FindBy(xpath = "\"//div[@id='search']/descendant::button\"")
+    @FindBy(xpath = "//div[@id='search']/descendant::button")
     private WebElement searchButton;
 
     public HomePage(WebDriver driver){

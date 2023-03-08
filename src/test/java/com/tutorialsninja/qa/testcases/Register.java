@@ -59,8 +59,8 @@ public class Register extends Base {
         registerPage.enterLastName(dataProp.getProperty("lastName"));
         registerPage.enterEmail(Utilities.generateEmailWithTimeStamp());
         registerPage.enterTelephone(dataProp.getProperty("telephoneNumber"));
-        registerPage.enterPassword(dataProp.getProperty("validPassword"));
-        registerPage.enterConfirmPassword(dataProp.getProperty("validPassword"));
+        registerPage.enterPassword(prop.getProperty("validPassword"));
+        registerPage.enterConfirmPassword(prop.getProperty("validPassword"));
         registerPage.selectSubField();
         registerPage.selectPrivacyPolicy();
         registerPage.clickContinueButton();
@@ -77,10 +77,10 @@ public class Register extends Base {
 
         registerPage.enterFirstName(dataProp.getProperty("firstName"));
         registerPage.enterLastName(dataProp.getProperty("lastName"));
-        registerPage.enterEmail(dataProp.getProperty("validEmail"));
+        registerPage.enterEmail(prop.getProperty("validEmail"));
         registerPage.enterTelephone(dataProp.getProperty("telephoneNumber"));
-        registerPage.enterPassword(dataProp.getProperty("validPassword"));
-        registerPage.enterConfirmPassword(dataProp.getProperty("validPassword"));
+        registerPage.enterPassword(prop.getProperty("validPassword"));
+        registerPage.enterConfirmPassword(prop.getProperty("validPassword"));
         registerPage.selectSubField();
         registerPage.selectPrivacyPolicy();
         registerPage.clickContinueButton();
