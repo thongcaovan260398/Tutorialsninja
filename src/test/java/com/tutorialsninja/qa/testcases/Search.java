@@ -21,7 +21,7 @@ public class Search extends Base {
     public Search(){
         super();
     }
-    WebDriver driver;
+    public WebDriver driver;
 
     @AfterMethod
     public void tearDown(){
@@ -46,7 +46,7 @@ public class Search extends Base {
         Assert.assertEquals(searchPage.retrieveNoProductMessageText(),dataProp.getProperty("noProductTextInSearchResults"),"No product message in search results is not displayed");
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, dependsOnMethods ={"verifySearchWithValidProduct","verifySearchWithInvalidProduct"} )
     public void verifySearchWithoutAnyProduct(){
         searchPage = homePage.clickSearchButton();
         Assert.assertEquals(searchPage.retrieveNoProductMessageText(),dataProp.getProperty("noProductTextInSearchResults"),"No product message in search results is not displayed");

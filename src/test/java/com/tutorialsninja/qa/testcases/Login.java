@@ -24,7 +24,7 @@ public class Login extends Base {
     public Login(){
         super();
     }
-    WebDriver driver;
+    public WebDriver driver;
     @AfterMethod
     public void tearDown(){
         driver.quit();

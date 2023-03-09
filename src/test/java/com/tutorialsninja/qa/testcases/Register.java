@@ -21,7 +21,7 @@ public class Register extends Base {
         super();
     }
 
-    WebDriver driver;
+    public WebDriver driver;
 
     @AfterMethod
     public void tearDown() {
